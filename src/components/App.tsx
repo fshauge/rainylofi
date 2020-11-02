@@ -54,7 +54,7 @@ export default function App() {
       </div>
       <div hidden={hidden}>
         <div ref={music.ref} />
-        <audio ref={rain.ref} controls autoPlay>
+        <audio ref={rain.ref} controls loop autoPlay>
           <source
             src="https://rainymood.com/audio1112/0.m4a"
             type="audio/mp4"
