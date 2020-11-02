@@ -7,23 +7,23 @@ import { Range } from "./Range";
 export default function App() {
   const [volumes, setVolumes] = useLocalStorage("volumes", {
     music: 25,
-    ambience: 25,
+    rain: 25,
   });
 
   const music = useYouTubePlayer("7NOSDKb0HlU");
-  const ambience = useAudioPlayer();
+  const rain = useAudioPlayer();
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     music.setVolume(volumes.music);
-    ambience.setVolume(volumes.ambience);
-  }, [volumes.music, volumes.ambience, music, ambience]);
+    rain.setVolume(volumes.rain);
+  }, [volumes.music, volumes.rain, music, rain]);
 
   return (
     <div>
-      {ambience.paused && (
+      {rain.paused && (
         <div>
-          <button onClick={() => ambience.player!.play()}>Play</button>
+          <button onClick={() => rain.player!.play()}>Play</button>
         </div>
       )}
       <div className="controls">
@@ -34,14 +34,12 @@ export default function App() {
           value={volumes.music}
           onChange={(music) => setVolumes((volumes) => ({ ...volumes, music }))}
         />
-        <label>Ambience</label>
+        <label>Rain</label>
         <Range
           min={0}
           max={100}
-          value={volumes.ambience}
-          onChange={(ambience) =>
-            setVolumes((volumes) => ({ ...volumes, ambience }))
-          }
+          value={volumes.rain}
+          onChange={(rain) => setVolumes((volumes) => ({ ...volumes, rain }))}
         />
       </div>
       <div>
@@ -56,7 +54,7 @@ export default function App() {
       </div>
       <div hidden={hidden}>
         <div ref={music.ref} />
-        <audio ref={ambience.ref} controls autoPlay>
+        <audio ref={rain.ref} controls autoPlay>
           <source
             src="https://rainymood.com/audio1112/0.m4a"
             type="audio/mp4"
