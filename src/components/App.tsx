@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useAudioPlayer } from "../hooks/useAudioPlayer";
+import React, { useState } from "react";
+import ReactPlayer from "react-player";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { useYouTubePlayer } from "../hooks/useYouTubePlayer";
 import { Range } from "./Range";
 
 export default function App() {
@@ -10,22 +9,15 @@ export default function App() {
     rain: 25,
   });
 
-  const music = useYouTubePlayer("7NOSDKb0HlU");
-  const rain = useAudioPlayer();
-  const [hidden, setHidden] = useState(true);
-
-  useEffect(() => {
-    music.setVolume(volumes.music);
-    rain.setVolume(volumes.rain);
-  }, [volumes.music, volumes.rain, music, rain]);
+  const [playing, setPlaying] = useState(false);
 
   return (
     <div>
-      {rain.paused && (
-        <div>
-          <button onClick={() => rain.player!.play()}>Play</button>
-        </div>
-      )}
+      <div>
+        <button onClick={() => setPlaying((playing) => !playing)}>
+          {playing ? "Pause" : "Play"}
+        </button>
+      </div>
       <div className="controls">
         <label>Music</label>
         <Range
@@ -42,26 +34,19 @@ export default function App() {
           onChange={(rain) => setVolumes((volumes) => ({ ...volumes, rain }))}
         />
       </div>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={hidden}
-            onChange={(e) => setHidden(e.currentTarget.checked)}
-          />
-          Hide players
-        </label>
-      </div>
-      <div hidden={hidden}>
-        <div ref={music.ref} />
-        <audio ref={rain.ref} controls loop autoPlay>
-          <source
-            src="https://rainymood.com/audio1112/0.m4a"
-            type="audio/mp4"
-          />
-          <source src="https://rainymood.com/track.ogg" type="audio/ogg" />
-          <source src="https://rainymood.com/track.mp3" type="audio/mp3" />
-        </audio>
+      <div hidden>
+        <ReactPlayer
+          url="https://www.youtube.com/watch?v=7NOSDKb0HlU"
+          volume={volumes.music / 100}
+          playing={playing}
+          controls
+        />
+        <ReactPlayer
+          url="https://rainymood.com/audio1112/0.m4a"
+          volume={volumes.rain / 100}
+          playing={playing}
+          controls
+        />
       </div>
     </div>
   );
