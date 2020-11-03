@@ -1,34 +1,34 @@
 import { useEffect, useRef, useState } from "react";
+import { Player, PlayerPromise } from "../providers/youtube";
 
 export const useYouTubePlayer = (videoId: string) => {
-  const ref = useRef(null);
-  const [player, setPlayer] = useState<any>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const [player, setPlayer] = useState<Player | null>(null);
 
   useEffect(() => {
-    const {
-      YT: { Player },
-    } = window as any;
-
-    const player = new Player(ref.current, {
-      width: 640,
-      height: 390,
-      videoId,
-      events: {
-        onReady: () => {
-          player.playVideo();
-          setPlayer(player);
+    const execute = async () => {
+      const Player = await PlayerPromise;
+      const player = new Player(ref.current!, {
+        width: 640,
+        height: 390,
+        videoId,
+        events: {
+          onReady: () => {
+            player.playVideo();
+            setPlayer(player);
+          },
         },
-      },
-    });
+      });
+    };
+
+    execute();
   }, [videoId]);
 
   return {
     ref,
     player,
     setVolume: (volume: number) => {
-      if (player !== null) {
-        player.setVolume(volume);
-      }
+      player?.setVolume(volume);
     },
   };
 };
