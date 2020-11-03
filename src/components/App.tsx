@@ -40,12 +40,14 @@ export default function App() {
           volume={volumes.music / 100}
           playing={playing}
           controls
+          loop
         />
         <ReactPlayer
           url="https://rainymood.com/audio1112/0.m4a"
           volume={volumes.rain / 100}
           playing={playing}
           controls
+          loop
         />
       </div>
     </div>
