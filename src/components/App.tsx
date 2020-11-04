@@ -5,6 +5,7 @@ import { Range } from "./Range";
 
 export default function App() {
   const [volumes, setVolumes] = useLocalStorage("volumes", {
+    main: 100,
     music: 25,
     rain: 25,
   });
@@ -19,6 +20,14 @@ export default function App() {
         </button>
       </div>
       <div className="controls">
+        <label>Main</label>
+        <Range
+          min={0}
+          max={100}
+          value={volumes.main}
+          onChange={(main) => setVolumes((volumes) => ({ ...volumes, main }))}
+        />
+        <div />
         <label>Music</label>
         <Range
           min={0}
@@ -43,14 +52,14 @@ export default function App() {
       <div hidden>
         <ReactPlayer
           url="https://www.youtube.com/watch?v=7NOSDKb0HlU"
-          volume={volumes.music / 100}
+          volume={(volumes.music / 100) * (volumes.main / 100)}
           playing={playing}
           controls
           loop
         />
         <ReactPlayer
           url="https://rainymood.com/audio1112/0.m4a"
-          volume={volumes.rain / 100}
+          volume={(volumes.rain / 100) * (volumes.main / 100)}
           playing={playing}
           controls
           loop
