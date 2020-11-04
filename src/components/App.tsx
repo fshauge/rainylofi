@@ -26,6 +26,9 @@ export default function App() {
           value={volumes.music}
           onChange={(music) => setVolumes((volumes) => ({ ...volumes, music }))}
         />
+        <div>
+          (<a href="https://www.youtube.com/watch?v=7NOSDKb0HlU">source</a>)
+        </div>
         <label>Rain</label>
         <Range
           min={0}
@@ -33,6 +36,9 @@ export default function App() {
           value={volumes.rain}
           onChange={(rain) => setVolumes((volumes) => ({ ...volumes, rain }))}
         />
+        <div>
+          (<a href="https://rainymood.com/">source</a>)
+        </div>
       </div>
       <div hidden>
         <ReactPlayer
