@@ -5,9 +5,9 @@ import { Range } from "./Range";
 
 export default function App() {
   const [volumes, setVolumes] = useLocalStorage("volumes", {
-    main: 100,
-    music: 25,
-    rain: 25,
+    main: 50,
+    music: 50,
+    rain: 50,
   });
 
   const [playing, setPlaying] = useState(false);
